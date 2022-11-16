@@ -40,16 +40,19 @@ public class RentACatTest {
 		c1 = Mockito.mock(Cat.class);
 		Mockito.when(c1.getName()).thenReturn("Jennyanydots");
 		Mockito.when(c1.getId()).thenReturn(1);
+		Mockito.when(c1.toString()).thenReturn("ID 1. Jennyanydots");
 
 		// 3. Create an unrented Cat with ID 2 and name "Old Deuteronomy", assign to c2
 		c2 = Mockito.mock(Cat.class);
 		Mockito.when(c2.getName()).thenReturn("Old Deuteronomy");
 		Mockito.when(c2.getId()).thenReturn(2);
+		Mockito.when(c2.toString()).thenReturn("ID 2. Old Deuteronomy");
 
 		// 4. Create an unrented Cat with ID 3 and name "Mistoffelees", assign to c3
 		c3 = Mockito.mock(Cat.class);
 		Mockito.when(c3.getName()).thenReturn("Mistoffelees");
 		Mockito.when(c3.getId()).thenReturn(3);
+		Mockito.when(c3.toString()).thenReturn("ID 3. Mistoffelees");
 	}
 
 	@After
@@ -220,9 +223,10 @@ public class RentACatTest {
 		r.addCat(c1);
 		r.addCat(c2);
 		r.addCat(c3);
-		String ret = r.listCats();
-		assertEquals(ret,
-				"ID 1. Jennyanydots\nID 2. Old Deuteronomy\nID 3. Mistoffelees\n", ret);
+		Mockito.when(c1.getRented()).thenReturn(false);
+		Mockito.when(c2.getRented()).thenReturn(false);
+		Mockito.when(c3.getRented()).thenReturn(false);
+		assertEquals(r.listCats(), "ID 1. Jennyanydots\nID 2. Old Deuteronomy\nID 3. Mistoffelees\n", r.listCats());
 	}
 
 	/**
@@ -304,5 +308,6 @@ public class RentACatTest {
 		r.addCat(c3);
 		Mockito.when(c2.getRented()).thenReturn(true);
 		assertTrue(r.returnCat(2));
+		Mockito.verify(c2, Mockito.times(1)).returnCat();
 	}
 }

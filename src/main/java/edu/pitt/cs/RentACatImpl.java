@@ -59,8 +59,10 @@ public class RentACatImpl implements RentACat {
 								//////////// 3.Mistoffelees\n"
 
 		String mes = "";
-		for (Cat c : this.cats) {
-			mes = mes + "ID " + String.valueOf(c.getId()) + ". " + c.getName() + "\n";
+		for (Cat c : cats) {
+			if (this.catAvailable(c.getId())) {
+				mes += (c.toString() + "\n");
+			}
 		}
 		return mes;
 	}
